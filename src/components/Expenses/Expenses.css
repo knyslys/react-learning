@@ -1,0 +1,6 @@
+.expenses {
+  background-color: rgb(180, 176, 176);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column-reverse;
+}
