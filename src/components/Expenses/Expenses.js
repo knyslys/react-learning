@@ -4,20 +4,16 @@ import ExpenseFilter from "./ExpensesFilter";
 import React, { useState } from "react";
 import "./Expenses.css";
 
-const renderExpenses = (expense) => {
-  console.log(expense);
-  return expense.map((e) => {
-    return <ExpenseItem title={e.title} amount={e.amount} date={e.date} />;
-  });
-};
-
 function Expenses(props) {
   const [filterDate, setFilterDate] = useState("2023");
 
   const getFilterDate = (year) => {
     setFilterDate(year);
-    console.log(year);
   };
+
+  const filteredExpenses = props.items.filter((item) => {
+    return item.date.getFullYear().toString() === filterDate;
+  });
 
   return (
     <Card className="expenses">
@@ -25,9 +21,26 @@ function Expenses(props) {
         selected={filterDate}
         filterDateSet={getFilterDate}
       ></ExpenseFilter>
-      {renderExpenses(props.items)}
+      {filteredExpenses.length === 0 ? (
+        <h2>No Content</h2>
+      ) : (
+        renderExpenses(filteredExpenses)
+      )}
     </Card>
   );
 }
+
+const renderExpenses = (expense) => {
+  return expense.map((e) => {
+    return (
+      <ExpenseItem
+        key={Math.random()}
+        title={e.title}
+        amount={e.amount}
+        date={e.date}
+      />
+    );
+  });
+};
 
 export default Expenses;
